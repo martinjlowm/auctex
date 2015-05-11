@@ -5120,13 +5120,13 @@ regardless of its data type."
   (save-excursion
     (let ((count 0) (limit (line-end-position)) char)
       (while (progn
-	       (skip-chars-forward "^{}\\\\" limit)
+	       (skip-chars-forward "^{}[]\\\\" limit)
 	       (when (and (< (point) limit) (not (TeX-in-comment)))
 		 (setq char (char-after))
 		 (forward-char)
-		 (cond ((eq char ?\{)
+		 (cond ((or (eq char ?\{) (eq char ?\[))
 			(setq count (+ count TeX-brace-indent-level)))
-		       ((eq char ?\})
+		       ((or (eq char ?\}) (eq char ?\]))
 			(setq count (- count TeX-brace-indent-level)))
 		       ((eq char ?\\)
 			(when (< (point) limit)
